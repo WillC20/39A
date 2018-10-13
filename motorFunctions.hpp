@@ -7,7 +7,6 @@ using namespace pros;
 //put the tough stuff like driving on it
 pros::Controller master(pros::E_CONTROLLER_MASTER);
 
-//I swear slave is a technical word
 //put the less demanding stuff here
 //this driver will not need as much practice
 pros::Controller partner(pros::E_CONTROLLER_PARTNER);
