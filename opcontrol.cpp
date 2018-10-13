@@ -36,7 +36,7 @@ void opcontrol() {
 		//I need to set the buttons. These are all temporary
 
 		//I want to change this so that the motor only moves however much it needs to
-		setCatapult(buttonToPower(pros::E_CONTROLLER_DIGITAL_R1, pros::E_CONTROLLER_DIGITAL_A, 127));
+		setCatapult(buttonToPower(pros::E_CONTROLLER_DIGITAL_R1, 127));
 
 		setIntake(buttonToPower(pros::E_CONTROLLER_DIGITAL_L1, pros::E_CONTROLLER_DIGITAL_L2, 127));
 
