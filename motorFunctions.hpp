@@ -123,16 +123,3 @@ int joyDeadZone(pros::Controller control, pros::controller_analog_e_t joystick) 
 int joyDeadZone(pros::controller_analog_e_t joystick) {
   return joyDeadZone(master, joystick);
 }
-
-//This section is for the tasks that i will need (i might move this to the main cpp file)
-//To run a task, use  TaskHandle and taskCreate();
-
-//this might be easier/unneeded with new v5 features we will see
-//basically the idea is that the motor will slow more gradually (instead of going from 0 to 127, you go from 0 to 5 to 10 ... 127) to prevent burnout
-void slewRate() {
-  while (true) {
-    //again i have to find the encoder information
-
-    delay(20);
-  }
-}
