@@ -1,20 +1,8 @@
 #include "main.h"
 
-using namespace pros;
-//forgot to use this for most of my code
-
-//master is the main Controller
-//put the tough stuff like driving on it
 pros::Controller master(pros::E_CONTROLLER_MASTER);
-
-//put the less demanding stuff here
-//this driver will not need as much practice
 pros::Controller partner(pros::E_CONTROLLER_PARTNER);
 
-//rename the motors for your own needs
-//the number is the port that the motor is in
-//adding a true/false will reverse the motor direction
-    //ex. pros::Motor example(1, true);
 pros::Motor pDriveLF(1);
 pros::Motor pDriveLB(2);
 pros::Motor pDriveRF(3);
@@ -27,99 +15,32 @@ pros::Motor intake(7);
 
 pros::Motor arm(8);
 
-//In case you want to loop through all the motors in a for
-Motor motors[] = {pDriveLF, pDriveLB, pDriveRF, pDriveRB, catapultR, catapultL, intake, arm};
+void setDrive(int left, int right);
+void setDrive(int speed);
+void setDrive();
 
-//The right and left speed are set seperately
-void setDrive(int left, int right) {
-  pDriveLF = pDriveLB = left;
-  pDriveRF = pDriveRB = right;
-}
+void setCatapult(int speed);
+void setCatapult();
 
-//the speeds are set together (useful for autonomous)
-void setDrive(int speed) {
-  setDrive(speed, speed);
-}
+void setIntake(int speed);
+void setIntake();
 
-//for autonomous if you need to drive forward at full speed
-void setDrive() {
-  setDrive(127);
-}
+void setArm(int speed);
+void setArm();
 
-//I need to write something that winds this the right amount
-//Calibrate the function when we get the motors
-void setCatapult(int speed) {
-  catapultR = catapultL = speed;
-}
+void lockMotor(pros::Motor motor, int lockPosition);
+void lockBase(int position);
 
-//tbh you will mostly be using this
-//The catapult only needs to go one direction anyway
-void setCatapult() {
-  setCatapult(127);
-}
+int buttonToPower(pros::Controller control, pros::controller_digital_e_t upButton, pros::controller_digital_e_t downButton, int upPower, int downPower, int offPower);
+int buttonToPower(pros::controller_digital_e_t upButton, pros::controller_digital_e_t downButton, int upPower, int downPower, int offPower);
+int buttonToPower(pros::Controller control, pros::controller_digital_e_t upButton, pros::controller_digital_e_t downButton, int upPower, int downPower);
+int buttonToPower(pros::controller_digital_e_t upButton, pros::controller_digital_e_t downButton, int upPower, int downPower);
+int buttonToPower(pros::Controller control, pros::controller_digital_e_t upButton, pros::controller_digital_e_t downButton, int power);
+int buttonToPower(pros::controller_digital_e_t upButton, pros::controller_digital_e_t downButton, int power);
+int buttonToPower(pros::Controller control, pros::controller_digital_e_t button, int power);
+int buttonToPower(pros::controller_digital_e_t button, int power);
 
-//set it to a certain speed
-void setIntake(int speed) {
-  intake = speed;
-}
-
-//defaults to full speed
-void setIntake() {
-  setIntake(127);
-}
-
-//if you want to flip two directions
-void setArm(int speed) {
-  arm = speed;
-}
-
-//for autonomous you only really need to turn one way
-void setArm() {
-  setArm(127);
-}
-
-//run this continuously to lock a motor
-void lockMotor(Motor motor, int lockPosition) {
-  double k = .2;
-  motor = k*(lockPosition - motor.get_position());
-}
-
-void lockBase(int position) {
-  lockMotor(pDriveLF, position);
-  lockMotor(pDriveLB, position);
-  lockMotor(pDriveRF, position);
-  lockMotor(pDriveRB, position);
-}
-
-//Here im going to put more logic based stuff
-
-//this will turn a boolean button press into a power level
-//useful for drivers control because the button presses have boolean outputs
-int buttonToPower(pros::Controller control, pros::controller_digital_e_t upButton, pros::controller_digital_e_t downButton, int power) {
-  return control.get_digital(upButton) ? power : control.get_digital(downButton) ? -power : 0;
-}
-
-//default to master controller
-int buttonToPower(pros::controller_digital_e_t upButton, pros::controller_digital_e_t downButton, int power) {
-  return buttonToPower(master, upButton, downButton, power);
-}
-
-//for devices that move in a single direction (catapult)
-int buttonToPower(pros::Controller control, pros::controller_digital_e_t button, int power) {
-  return control.get_digital(button) ? power : 0;
-}
-
-//default to the master controller
-int buttonToPower(pros::controller_digital_e_t button, int power) {
-  return buttonToPower(master, button, power);
-}
-
-//This stops the drift that controllers have
-int joyDeadZone(pros::Controller control, pros::controller_analog_e_t joystick) {
-  return abs(control.get_analog(joystick)) > 10 ? control.get_analog(joystick) : 0;
-}
-
-//default to master controller
-int joyDeadZone(pros::controller_analog_e_t joystick) {
-  return joyDeadZone(master, joystick);
-}
+int joyDeadZone(pros::Controller control, pros::controller_analog_e_t joystick, int bound);
+int joyDeadZone(pros::controller_analog_e_t joystick, int bound);
+int joyDeadZone(pros::Controller control, pros::controller_analog_e_t joystick);
+int joyDeadZone(pros::controller_analog_e_t joystick);
