@@ -154,43 +154,40 @@ task usercontrol()
 {
 	// User control code here, inside the loop
 
-	while (true)
-	{
-		bool lastArm = false;
-		bool lastBase = false;
-		bool dir = false;
-		bool catRun = true;
-		float turtle = 1;
-		bool lockedBase = false;
-		int currentLock;
+	bool lastArm = false;
+	bool lastBase = false;
+	bool dir = false;
+	bool catRun = true;
+	float turtle = 1;
+	bool lockedBase = false;
+	int currentLock;
 
-		while (true) {
-			turtle = vexRT[Btn5U] ? 0.5 : 1;
+	while (true) {
+		turtle = vexRT[Btn5U] ? 0.5 : 1;
 
-			lockedBase = newPress(Btn7U, lastBase) ? !lockedBase : lockedBase;
-			lastBase = vexRT[Btn7U];
+		lockedBase = newPress(Btn7U, lastBase) ? !lockedBase : lockedBase;
+		lastBase = vexRT[Btn7U];
 
-			if (!lockedBase) {
-				setDrive(deadZone(Ch3) * turtle, deadZone(Ch2) * turtle) ;
-				currentLock = SensorValue[rightQuad];
-				} else {
-				lockBase(currentLock);
-			}
-
-			dir = newPress(Btn8U, lastArm) ? !dir : dir;
-			setArm(buttonToPower(Btn6D, Btn8D, 127*(dir ? 1 : -1)));
-			lastArm = vexRT[Btn8U];
-
-			if (catRun) {
-				setCatapult(buttonToPower(Btn6U, 127));
-				catRun = !vexRT[Btn7R];
-				} else {
-				catRun = lowerCatapult(3700);
-			}
-
-			setIntake(buttonToPower(Btn5D, Btn5U, 127));
-
-			delay(20);
+		if (!lockedBase) {
+			setDrive(deadZone(Ch3) * turtle, deadZone(Ch2) * turtle) ;
+			currentLock = SensorValue[rightQuad];
+		} else {
+			lockBase(currentLock);
 		}
+
+		dir = newPress(Btn8U, lastArm) ? !dir : dir;
+		setArm(buttonToPower(Btn6D, Btn8D, 127*(dir ? 1 : -1)));
+		lastArm = vexRT[Btn8U];
+
+		if (catRun) {
+			setCatapult(buttonToPower(Btn6U, 127));
+			catRun = !vexRT[Btn7R];
+		} else {
+			catRun = lowerCatapult(3700);
+		}
+
+		setIntake(buttonToPower(Btn5D, Btn5U, 127));
+
+		delay(20);
 	}
 }
