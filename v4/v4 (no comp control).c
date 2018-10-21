@@ -54,7 +54,7 @@ void setArm() {
 }
 
 int buttonToPower(int downButton, int upButton, int power) {
-	return vexRT[downButton] ? -power : vexRT[upButton] ? power : 0;
+	return vexRT[downButton] && vexRT[upButton] ? 0 : vexRT[downButton] ? -power : vexRT[upButton] ? power : 0;
 }
 
 int buttonToPower(int button, int power) {
